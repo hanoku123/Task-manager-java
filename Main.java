@@ -59,39 +59,60 @@ public class Main {
                 }
             }
 
-            else if (choice == 3){
-                if (tasks.isEmpty()) {
-                    System.out.println("No tasks available.");
-                }else {
-                    System.out.println("Enter task number: ");
-                    int tasknum = sc.nextInt();
-                    if (tasknum > 0 && tasknum <= tasks.size()) {
-                        Task t = tasks.get(tasknum - 1);
-                        t.isCompleted = true;
-                        System.out.println("task " + t.title + " completed!");
+            else if (choice == 3) {
+
+                System.out.print("Enter task ID to complete: ");
+                int taskId = sc.nextInt();
+
+                try {
+
+                    Connection con = DatabaseManager.connect();
+
+                    String query = "UPDATE tasks SET completed = true WHERE id = ?";
+
+                    PreparedStatement ps = con.prepareStatement(query);
+
+                    ps.setInt(1, taskId);
+
+                    int rows = ps.executeUpdate();
+
+                    if (rows > 0) {
+                        System.out.println("Task marked as completed!");
                     } else {
-                        System.out.println("invalid");
+                        System.out.println("Task not found.");
                     }
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             }
-            else if(choice == 4){
-                if (tasks.isEmpty()) {
-                    System.out.println("No tasks available.");
-                }else {
-                    System.out.println("Enter task number: ");
-                    int tasknum = sc.nextInt();
-                    if (tasknum > 0 && tasknum <= tasks.size()) {
-                        Task t = tasks.remove(tasknum - 1);
+            else if (choice == 4) {
 
-                        System.out.println("task " + t.title + " Deleted!");
+                System.out.print("Enter task ID to delete: ");
+                int taskId = sc.nextInt();
+
+                try {
+
+                    Connection con = DatabaseManager.connect();
+
+                    String query = "DELETE FROM tasks WHERE id = ?";
+
+                    PreparedStatement ps = con.prepareStatement(query);
+
+                    ps.setInt(1, taskId);
+
+                    int rows = ps.executeUpdate();
+
+                    if (rows > 0) {
+                        System.out.println("Task deleted!");
                     } else {
-                        System.out.println("invalid");
+                        System.out.println("Task not found.");
                     }
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
-
             }
-
-
             else if (choice == 5)
             { System.out.println("Exiting...");
                 break;
