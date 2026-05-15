@@ -1,16 +1,24 @@
-Task Manager (Java)
+# Task Manager Application (Java + MySQL)
 
-This is a simple console-based task manager application built using Java.
+A backend-focused console application built using Java and MySQL for managing daily tasks.
 
-Features:
+## Features
 - Add tasks
-- View tasks with status
+- View tasks
 - Mark tasks as completed
 - Delete tasks
+- Persistent database storage using MySQL
 
-Concepts Used:
-- Object-Oriented Programming (OOP)
-- ArrayList
-- User input handling
+## Technologies Used
+- Java
+- JDBC
+- MySQL
+- OOP
+- Collections Framework
 
-This project helped me improve my Java fundamentals and problem-solving skills.
+## Concepts Practiced
+- CRUD operations
+- Database connectivity
+- SQL queries
+- PreparedStatement
+- Object-Oriented Programming
