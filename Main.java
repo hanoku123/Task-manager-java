@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public class Main {
     public static void main(String[] args) {
-
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
@@ -22,7 +23,23 @@ public class Main {
             if (choice == 1) {
                 System.out.print("Enter task: ");
                 String title = sc.nextLine();
-                tasks.add(new Task(title));
+                try {
+                    Connection con = DatabaseManager.connect();
+
+                    String query = "INSERT INTO tasks(title, completed) VALUES (?, ?)";
+
+                    PreparedStatement ps = con.prepareStatement(query);
+
+                    ps.setString(1, title);
+                    ps.setBoolean(2, false);
+
+                    ps.executeUpdate();
+
+                    System.out.println("Task added to database!");
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
                 System.out.println("Task added!");
             }
 
@@ -32,11 +49,11 @@ public class Main {
                 } else {
                     for (int i = 0; i < tasks.size(); i++) {
                         Task t = tasks.get(i);
-                      if(t.isCompleted){
-                          System.out.println((i + 1) + ". " + t.title + " [Completed]");
-                      }else {
-                          System.out.println((i + 1) + ". " + t.title + " [Pending]");
-                      }
+                        if(t.isCompleted){
+                            System.out.println((i + 1) + ". " + t.title + " [Completed]");
+                        }else {
+                            System.out.println((i + 1) + ". " + t.title + " [Pending]");
+                        }
 
                     }
                 }
@@ -83,5 +100,8 @@ public class Main {
             { System.out.println("Invalid choice!");
             }
         }
+
+
     }
+
 }
